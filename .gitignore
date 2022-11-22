@@ -2,3 +2,4 @@ myenv/
 .vscode/
 archive/
 .DS_Store
+preproc_datasets/
