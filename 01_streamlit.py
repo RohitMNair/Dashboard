@@ -6,6 +6,10 @@ from sqlalchemy.sql import text
 import pandas as pd
 import streamlit as st
 from streamlit_option_menu import option_menu
+import numpy as np
+
+from wordcloud import WordCloud
+
 
 #Defining Db Credentials
 USER_NAME = 'postgres'
@@ -41,7 +45,22 @@ with st.sidebar:
         icons=['house', 'gear'], menu_icon="cast", default_index=1)
     selected
 
-from wordcloud import WordCloud
+select_query_stmnt_year = text( "select year_released \
+                            from movies\
+                        where year_released is not NULL\
+                        group by year_released \
+                        order by year_released asc;")
+connection = db.connect()
+result_yr = connection.execute(select_query_stmnt_year)
+df = pd.DataFrame(result_yr.fetchall(),columns=result_yr.keys())
+arr = df.year_released.values
+
+
+option = st.selectbox('select the year you want the find the 10 best movies wrt ratings', (arr))
+st.write('You selected:', option)
+
+
+
 
 wc = WordCloud().fit_words({"A": 1, "B": 1, "C": 4,"D":1,})
 
