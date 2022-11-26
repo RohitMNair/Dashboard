@@ -5,6 +5,7 @@ from sqlalchemy.engine import create_engine
 from sqlalchemy.sql import text
 import pandas as pd
 import streamlit as st
+from streamlit_option_menu import option_menu
 
 #Defining Db Credentials
 USER_NAME = 'postgres'
@@ -35,7 +36,10 @@ df = pd.DataFrame(result_1.fetchall(),columns=result_1.keys())
 # st.title('Uber pickups in NYC')
 st.table(df)
 st.bar_chart(df['relevance'])
-st.sidebar()
+with st.sidebar:
+    selected = option_menu("Main Menu", ["Home", 'Settings'], 
+        icons=['house', 'gear'], menu_icon="cast", default_index=1)
+    selected
 
 from wordcloud import WordCloud
 
