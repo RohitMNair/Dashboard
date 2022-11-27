@@ -52,7 +52,7 @@ year = str(option)
 
 new_query = "select movie_name from movies as mo where movie_id in \
                 ( select rt.movie_id  from ratings as rt where movie_id in\
-                 (select movie_id from movies as mv where year_released = " + " " + year + " " + ") group by rt.movie_id order by avg(rating) desc limit 10)"
+                 (select movie_id from movies as mv where year_released = " + " " + year + " " + ") group by rt.movie_id order by avg(rating) desc limit 100)"
 
 connection = db.connect()
 result_yr = connection.execute(text(new_query))
@@ -91,14 +91,20 @@ st.table(df)
 st.bar_chart(df['relevance'])
 
 
+dict_ = dict(zip(df.tag,df.relevance))
 
 
-# st.write('You selected:', option)
-# from wordcloud import WordCloud
+from wordcloud import WordCloud
 
-# wc = WordCloud().fit_words({"A": 1, "B": 1, "C": 4,"D":1,})
+wc = WordCloud().fit_words(dict_)
 
-# st.image(wc.to_array())
+try:
+  st.image(wc.to_array())
+except:
+  # Prevent the error from propagating into your Streamlit app.
+  st.write("Nothing to show.... No tags for the particular movie")
+  pass
+
 
 
 
