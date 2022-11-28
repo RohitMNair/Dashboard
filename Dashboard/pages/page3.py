@@ -8,6 +8,7 @@ import pandas as pd
 import streamlit as st
 from streamlit_option_menu import option_menu
 import numpy as np
+import altair as alt
 
 #Defining Db Credentials
 USER_NAME = 'postgres'
@@ -63,4 +64,9 @@ st.text("Following are the ratings and their corresponding counts:")
 st.table(df)
 
 st.text("The distribution of the ratings:")
-st.line_chart(df)
+st.line_chart(df, x = 'rating', y = 'count')
+
+# c = alt.Chart(df).mark_circle().encode(
+#     x='rating', y='count', color='c', tooltip=['count'])
+
+# st.altair_chart(c, use_container_width=True)
