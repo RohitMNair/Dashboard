@@ -17,7 +17,7 @@ HOST = 'localhost'
 
 #Note - Database should be created before executing below operation
 #Initializing SqlAlchemy Postgresql Db Instance
-db = create_engine("postgresql+psycopg2://postgres:123@localhost:5432/popular_movies")
+db = create_engine("postgresql+psycopg2://postgres:123@localhost:5432/Movies")
 
 
 
@@ -41,7 +41,8 @@ with db.connect() as connection:
     ))
     df = pd.DataFrame(best_movie.fetchall(),columns=best_movie.keys())
     st.write("The best movie is ", df["title"].values[0])
-##########################################################
+###########################################################
+
 select_query_stmnt_year = text( "select year \
                             from movies\
                         where year is not NULL\
