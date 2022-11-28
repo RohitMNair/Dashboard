@@ -20,7 +20,7 @@ HOST = 'localhost'
 #Initializing SqlAlchemy Postgresql Db Instance
 db = create_engine("postgresql+psycopg2://postgres:123@localhost:5432/popular_movies")
 
-movie_name = st.text_input("Enter movie name you want the find the 5 most relevant tags")
+movie_name = st.text_input("Enter movie name you want the rating distribution of")
 if str(movie_name).find('\'')>=0:
     str_n = list(movie_name)
     str_n.insert(movie_name.find("'"),'\\')
@@ -38,7 +38,7 @@ matched_mnames = connection.execute(text(
 ))
 df = pd.DataFrame(matched_mnames.fetchall(),columns=matched_mnames.keys())
 arr = df["title"].values
-option1 = st.selectbox('select the movie you want the find the 5 most relevant tags', (arr))
+option1 = st.selectbox('select the movie', (arr))
 st.write('You selected:', option1)
 
 
@@ -59,7 +59,8 @@ result_rate = connection.execute(select_query_stmnt_rate)
 df = pd.DataFrame(result_rate.fetchall(),columns=result_rate.keys())
 
 
-
+st.text("Following are the ratings and their corresponding counts:")
 st.table(df)
 
+st.text("The distribution of the ratings:")
 st.line_chart(df)
