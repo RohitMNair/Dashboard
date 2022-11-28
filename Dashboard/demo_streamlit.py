@@ -17,7 +17,7 @@ HOST = 'localhost'
 
 #Note - Database should be created before executing below operation
 #Initializing SqlAlchemy Postgresql Db Instance
-db = create_engine("postgresql+psycopg2://postgres:123@localhost:5432/popular_movies")
+db = create_engine("postgresql+psycopg2://postgres:123@localhost:5432/Movies")
 
 
 
@@ -30,15 +30,15 @@ with st.sidebar:
 
 
 
-select_query_stmnt_year = text( "select year_released \
+select_query_stmnt_year = text( "select year \
                             from movies\
-                        where year_released is not NULL\
-                        group by year_released \
-                        order by year_released asc;")
+                        where year is not NULL\
+                        group by year \
+                        order by year asc;")
 connection = db.connect()
 result_yr = connection.execute(select_query_stmnt_year)
 df = pd.DataFrame(result_yr.fetchall(),columns=result_yr.keys())
-arr = df.year_released.values
+arr = df.year.values
 
 
 option = st.selectbox('select the year you want the find the 10 best movies wrt ratings', (arr))
@@ -50,14 +50,14 @@ st.write('You selected:', option)
 year = str(option)
 
 
-new_query = "select movie_name from movies as mo where movie_id in \
+new_query = "select title from movies as mo where movie_id in \
                 ( select rt.movie_id  from ratings as rt where movie_id in\
-                 (select movie_id from movies as mv where year_released = " + " " + year + " " + ") group by rt.movie_id order by avg(rating) desc limit 100)"
+                 (select movie_id from movies as mv where year = " + " " + year + " " + ") group by rt.movie_id order by avg(rating) desc limit 10)"
 
 connection = db.connect()
 result_yr = connection.execute(text(new_query))
 df = pd.DataFrame(result_yr.fetchall(),columns=result_yr.keys())
-arr = df.movie_name.values
+arr = df.title.values
 
 st.table(df)
 
@@ -80,7 +80,7 @@ select_query_stmnt = text("select gt.tag as tag,gs.relevance as relevance\
                         from genome_tags as gt, genome_scores as gs \
                         where gs.movie_id = (select mv.movie_id \
 					    from movies as mv \
-					    where movie_name = " + option1 + " ) and gs.tag_id = gt.tag_id \
+					    where title = " + option1 + " ) and gs.tag_id = gt.tag_id \
                         ORDER BY gs.relevance DESC LIMIT 5;")
 
 
@@ -96,14 +96,14 @@ dict_ = dict(zip(df.tag,df.relevance))
 
 from wordcloud import WordCloud
 
-wc = WordCloud().fit_words(dict_)
+
 
 try:
-  st.image(wc.to_array())
-except:
+    wc = WordCloud().fit_words(dict_)
+    st.image(wc.to_array())
+except ValueError:
   # Prevent the error from propagating into your Streamlit app.
-  st.write("Nothing to show.... No tags for the particular movie")
-  pass
+  st.write("Nothing to show.... No tags for that particular movie")
 
 
 
