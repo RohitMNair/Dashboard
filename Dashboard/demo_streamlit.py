@@ -62,9 +62,25 @@ arr = df.title.values
 st.table(df)
 
 #######################################
+movie_name = st.text_input("Enter movie name you want the find the 5 most relevant tags")
+if str(movie_name).find('\'')>=0:
+    str_n = list(movie_name)
+    str_n.insert(movie_name.find("'"),'\\')
+    movie_name = ''.join(str_n)
+    movie_name = "E\'%"+str(movie_name)+"%\'"
 
+else:
+    movie_name = "\'%"+str(movie_name)+"%\'"
 
-option1 = st.selectbox('select the movie you want the find the 10 most relevant tags', (arr))
+connection = db.connect()
+matched_mnames = connection.execute(text(
+    f"select title\
+    from movies\
+    where title ilike {movie_name}"
+))
+df = pd.DataFrame(matched_mnames.fetchall(),columns=matched_mnames.keys())
+arr = df["title"].values
+option1 = st.selectbox('select the movie you want the find the 5 most relevant tags', (arr))
 st.write('You selected:', option1)
 
 if str(option1).find('\'')>=0:
