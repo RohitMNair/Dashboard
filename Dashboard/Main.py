@@ -17,7 +17,7 @@ HOST = 'localhost'
 
 #Note - Database should be created before executing below operation
 #Initializing SqlAlchemy Postgresql Db Instance
-db = create_engine("postgresql+psycopg2://postgres:123@localhost:5432/popular_movies")
+db = create_engine("postgresql+psycopg2://postgres:123@localhost:5432/Movies")
 
 
 
@@ -26,40 +26,6 @@ with st.sidebar:
     selected = option_menu("Main Menu", ["Home", 'Settings'], 
         icons=['house', 'gear'], menu_icon="cast", default_index=1)
     selected
-
-
-
-
-select_query_stmnt_year = text( "select year \
-                            from movies\
-                        where year is not NULL\
-                        group by year \
-                        order by year asc;")
-connection = db.connect()
-result_yr = connection.execute(select_query_stmnt_year)
-df = pd.DataFrame(result_yr.fetchall(),columns=result_yr.keys())
-arr = df.year.values
-
-
-option = st.selectbox('select the year you want the find the 10 best movies wrt ratings', (arr))
-st.write('You selected:', option)
-
-####################################
-
-
-year = str(option)
-
-
-new_query = "select title from movies as mo where movie_id in \
-                ( select rt.movie_id  from ratings as rt where movie_id in\
-                 (select movie_id from movies as mv where year = " + " " + year + " " + ") group by rt.movie_id order by avg(rating) desc limit 10)"
-
-connection = db.connect()
-result_yr = connection.execute(text(new_query))
-df = pd.DataFrame(result_yr.fetchall(),columns=result_yr.keys())
-arr = df.title.values
-
-st.table(df)
 
 #######################################
 movie_name = st.text_input("Enter movie name you want the find the 5 most relevant tags")
@@ -80,6 +46,8 @@ matched_mnames = connection.execute(text(
 ))
 df = pd.DataFrame(matched_mnames.fetchall(),columns=matched_mnames.keys())
 arr = df["title"].values
+
+
 option1 = st.selectbox('select the movie you want the find the 5 most relevant tags', (arr))
 st.write('You selected:', option1)
 
@@ -124,7 +92,38 @@ except ValueError:
 
 ##########################################################
 
+select_query_stmnt_year = text( "select year \
+                            from movies\
+                        where year is not NULL\
+                        group by year \
+                        order by year asc;")
+connection = db.connect()
+result_yr = connection.execute(select_query_stmnt_year)
+df = pd.DataFrame(result_yr.fetchall(),columns=result_yr.keys())
+arr = df.year.values
 
+
+option = st.selectbox('select the year you want the find the 10 best movies wrt ratings', (arr))
+st.write('You selected:', option)
+
+####################################
+
+
+year = str(option)
+
+
+new_query = "select title from movies as mo where movie_id in \
+                ( select rt.movie_id  from ratings as rt where movie_id in\
+                 (select movie_id from movies as mv where year = " + " " + year + " " + ") group by rt.movie_id order by avg(rating) desc limit 10)"
+
+connection = db.connect()
+result_yr = connection.execute(text(new_query))
+df = pd.DataFrame(result_yr.fetchall(),columns=result_yr.keys())
+arr = df.title.values
+
+st.table(df)
+
+#######################################################################################
 
 
 
