@@ -17,7 +17,7 @@ HOST = 'localhost'
 
 #Note - Database should be created before executing below operation
 #Initializing SqlAlchemy Postgresql Db Instance
-db = create_engine("postgresql+psycopg2://postgres:123@localhost:5432/Movies")
+db = create_engine("postgresql+psycopg2://postgres:123@localhost:5432/popular_movies")
 
 
 
