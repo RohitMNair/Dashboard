@@ -61,6 +61,7 @@ if "logged_in" not in st.session_state.keys() or st.session_state["logged_in"] i
                 else:
                     st.session_state["logged_in"] = False
                     st.write("You are not logged in")
+                st.experimental_rerun()
         elif choice == "SignUp":
             username = st.text_input(label = "Username", value="", key = "username")
             password = st.text_input(label = "Password",value = "" ,type="password", key="password")
@@ -77,7 +78,7 @@ if "logged_in" not in st.session_state.keys() or st.session_state["logged_in"] i
                             VALUES ('{username}','{make_hashes(password)}');"
                         ))
                     st.write("User created")
-    st.experimental_rerun()
+                st.experimental_rerun()
 else:
     movie_arr = []
 
