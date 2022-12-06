@@ -8,7 +8,24 @@ import streamlit as st
 from streamlit_option_menu import option_menu
 import numpy as np
 from wordcloud import WordCloud
-#Defining Db Credentials
+########################################
+
+#Theme
+
+primaryColor="#d33682"
+backgroundColor="#002b36"
+secondaryBackgroundColor="#586e75"
+textColor="#fafafa"
+font="sans serif"
+
+
+
+
+#########################################
+
+
+
+##Defining Db Credentials
 USER_NAME = 'postgres'
 PASSWORD = '123'
 PORT = 5432
@@ -26,6 +43,21 @@ with st.sidebar:
     selected = option_menu("Main Menu", ["Home", 'Settings'], 
         icons=['house', 'gear'], menu_icon="cast", default_index=1)
     selected
+
+
+
+
+############    Intro
+
+##########################################################
+
+##########################################################
+
+st.header("Movie Database")
+
+
+
+
 
 
 ##########################################################

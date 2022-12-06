@@ -37,7 +37,7 @@ st.write('You selected:', option)
 genre_ = str(option)
 
 
-number = st.number_input('Enter the number of top tags to find')
+number = st.number_input('Enter the number of top tags to find', min_value= 1, step= 1)
 st.write('You chose ', number)
 
 

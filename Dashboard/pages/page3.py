@@ -70,3 +70,108 @@ st.line_chart(df, x = 'rating', y = 'count')
 #     x='rating', y='count', color='c', tooltip=['count'])
 
 # st.altair_chart(c, use_container_width=True)
+
+
+st.header("Compare two movies")
+
+
+col1, col2= st.columns((1,1))
+
+with col1:
+
+
+            movie_name = st.text_input("Enter first movie name")
+            if str(movie_name).find('\'')>=0:
+                str_n = list(movie_name)
+                str_n.insert(movie_name.find("'"),'\\')
+                movie_name = ''.join(str_n)
+                movie_name = "E\'%"+str(movie_name)+"%\'"
+
+            else:
+                movie_name = "\'%"+str(movie_name)+"%\'"
+
+            connection = db.connect()
+            matched_mnames = connection.execute(text(
+                f"select title, movie_id\
+                from movies\
+                where title ilike {movie_name}"
+            ))
+            df = pd.DataFrame(matched_mnames.fetchall(),columns=matched_mnames.keys())
+            arr = df["title"].values
+            option1 = st.selectbox('select the first movie', (arr))
+            st.write('You selected:', option1)
+
+
+            mov_id = df[df['title'] == option1]['movie_id'].values[0]
+
+            ###################################
+
+
+
+
+            select_query_stmnt_rate = text( "select distinct rating,count(user_id)\
+                                                from ratings\
+                                                where movie_id= " + str(mov_id) +
+                                                " group by distinct rating\
+                                                order by rating DESC;")
+            connection = db.connect()
+            result_rate = connection.execute(select_query_stmnt_rate)
+            df = pd.DataFrame(result_rate.fetchall(),columns=result_rate.keys())
+
+
+            #st.text("Following are the ratings and their corresponding counts:")
+            #st.table(df)
+
+            st.text("The distribution of the ratings:")
+            st.line_chart(df, x = 'rating', y = 'count')
+
+
+
+
+with col2:
+
+
+                movie_name = st.text_input("Enter second movie ")
+                if str(movie_name).find('\'')>=0:
+                    str_n = list(movie_name)
+                    str_n.insert(movie_name.find("'"),'\\')
+                    movie_name = ''.join(str_n)
+                    movie_name = "E\'%"+str(movie_name)+"%\'"
+
+                else:
+                    movie_name = "\'%"+str(movie_name)+"%\'"
+
+                connection = db.connect()
+                matched_mnames = connection.execute(text(
+                    f"select title, movie_id\
+                    from movies\
+                    where title ilike {movie_name}"
+                ))
+                df = pd.DataFrame(matched_mnames.fetchall(),columns=matched_mnames.keys())
+                arr = df["title"].values
+                option1 = st.selectbox('select the second movie', (arr))
+                st.write('You selected:', option1)
+
+
+                mov_id = df[df['title'] == option1]['movie_id'].values[0]
+
+                ###################################
+
+
+
+
+                select_query_stmnt_rate = text( "select distinct rating,count(user_id)\
+                                                    from ratings\
+                                                    where movie_id= " + str(mov_id) +
+                                                    " group by distinct rating\
+                                                    order by rating DESC;")
+                connection = db.connect()
+                result_rate = connection.execute(select_query_stmnt_rate)
+                df = pd.DataFrame(result_rate.fetchall(),columns=result_rate.keys())
+
+
+                #st.text("Following are the ratings and their corresponding counts:")
+                #st.table(df)
+
+                st.text("The distribution of the ratings:")
+                st.line_chart(df, x = 'rating', y = 'count')

@@ -74,8 +74,6 @@ st.bar_chart(dataf, x = 'name', y= 'avg_rate')
 
 
 
-
-
 # for i in range (int(movie_num)):
 #     with db.connect() as connection:
 #         movie_name = st.text_input("Enter movie name you want the find the 5 most relevant tags")
