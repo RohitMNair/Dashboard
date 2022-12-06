@@ -73,6 +73,7 @@ if "logged_in" not in st.session_state.keys() or st.session_state["logged_in"] i
                             VALUES ('{username}','{make_hashes(password)}');"
                         ))
                     st.write("User created")
+    st.experimental_rerun()
 
 else:
     with db.connect() as connection:
