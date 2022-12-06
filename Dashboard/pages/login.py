@@ -50,8 +50,8 @@ with db.connect() as connection:
                 st.session_state["logged_in"] = False
                 st.write("You are not logged in")
     elif choice == "SignUp":
-        username = st.text_input(label = "Username", value="")
-        password = st.text_input(label = "Password",value = "" ,type="password")
+        username = st.text_input(label = "Username", value="", key = "username")
+        password = st.text_input(label = "Password",value = "" ,type="password", key="password")
         existing_details = connection.execute(text(
             f"select username, password from usertable where username = '{username}';"
         ))
