@@ -78,7 +78,7 @@ if "logged_in" not in st.session_state.keys() or st.session_state["logged_in"] i
                         ))
                     st.write("User created")
                 st.experimental_rerun()
-    st.experimental_rerun()
+    
 
 else:
 
