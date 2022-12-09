@@ -14,12 +14,7 @@ import numpy as np
 ######################    ... e ... #########################
 #######################################################
 
-#Defining Db Credentials
-USER_NAME = 'postgres'
-PASSWORD = '123'
-PORT = 5432
-DATABASE_NAME = 'postgres'
-HOST = 'localhost'
+
 
 #Note - Database should be created before executing below operation
 #Initializing SqlAlchemy Postgresql Db Instance
@@ -98,15 +93,13 @@ else:
     st.write(movie_arr)
 
     avg_rate=[]
-    with db.connect() as connection:
-
-        for tit in movie_arr:
-            x = connection.execute(text(
-                "select avg(rating) from ratings where movie_id in (select movie_id from movies where title=\'"+tit+"\');"
-            ))
-            df = pd.DataFrame(x.fetchall(),columns=x.keys())
-            val = df["avg"].values[0]
-            avg_rate.append(val)
+    for tit in movie_arr:
+        x = connection.execute(text(
+            "select avg(rating) from ratings where movie_id in (select movie_id from movies where title=\'"+tit+"\');"
+        ))
+        df = pd.DataFrame(x.fetchall(),columns=x.keys())
+        val = df["avg"].values[0]
+        avg_rate.append(val)
 
 
     st.write(avg_rate)

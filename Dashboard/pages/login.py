@@ -4,11 +4,6 @@ import streamlit as st
 from sqlalchemy.engine import create_engine
 from sqlalchemy.sql import text
 #Defining Db Credentials
-USER_NAME = 'postgres'
-PASSWORD = '123'
-PORT = 5432
-DATABASE_NAME = 'postgres'
-HOST = 'localhost'
 
 #Note - Database should be created before executing below operation
 #Initializing SqlAlchemy Postgresql Db Instance

@@ -11,12 +11,6 @@ import numpy as np
 import hashlib
 
 
-#Defining Db Credentials
-USER_NAME = 'postgres'
-PASSWORD = '123'
-PORT = 5432
-DATABASE_NAME = 'postgres'
-HOST = 'localhost'
 
 #Note - Database should be created before executing below operation
 #Initializing SqlAlchemy Postgresql Db Instance
