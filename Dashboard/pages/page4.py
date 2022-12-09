@@ -126,3 +126,4 @@ else:
 
     p=alt.Chart(movie_rat_count_df).mark_bar().encode(x='movie',y='sum(count)',color='rating').properties(width= 500, height=800)
     st.write(p)
+    
