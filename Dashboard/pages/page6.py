@@ -90,24 +90,24 @@ else:
         st.header("Select the movies for comparing total ratings")
         movie_arr = st.multiselect("Selected Movies:",arr)
 
-    st.write(movie_arr)
+        st.write(movie_arr)
 
-    avg_rate=[]
-    for tit in movie_arr:
-        x = connection.execute(text(
-            "select avg(rating) from ratings where movie_id in (select movie_id from movies where title=\'"+tit+"\');"
-        ))
-        df = pd.DataFrame(x.fetchall(),columns=x.keys())
-        val = df["avg"].values[0]
-        avg_rate.append(val)
-
-
-    st.write(avg_rate)
+        avg_rate=[]
+        for tit in movie_arr:
+            x = connection.execute(text(
+                "select avg(rating) from ratings where movie_id in (select movie_id from movies where title=\'"+tit+"\');"
+            ))
+            df = pd.DataFrame(x.fetchall(),columns=x.keys())
+            val = df["avg"].values[0]
+            avg_rate.append(val)
 
 
-    dataf = pd.DataFrame({'name' : movie_arr, 'avg_rate': avg_rate})
-    st.header("The total average rating of selected movies")
-    st.bar_chart(dataf, x = 'name', y= 'avg_rate')
+        st.write(avg_rate)
+
+
+        dataf = pd.DataFrame({'name' : movie_arr, 'avg_rate': avg_rate})
+        st.header("The total average rating of selected movies")
+        st.bar_chart(dataf, x = 'name', y= 'avg_rate')
 
 
 

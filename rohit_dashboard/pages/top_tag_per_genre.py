@@ -13,6 +13,7 @@ import hashlib
 
 db = create_engine("postgresql+psycopg2://postgres:123@localhost:5432/popular_movies")
 
+st.title("Top tags as per genre")
 if "logged_in" not in st.session_state.keys() or st.session_state["logged_in"] is False:
     def make_hashes(str_to_hash):
         """

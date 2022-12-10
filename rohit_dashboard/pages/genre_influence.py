@@ -13,6 +13,7 @@ import matplotlib.pyplot as plt
 #Initializing SqlAlchemy Postgresql Db Instance
 db = create_engine("postgresql+psycopg2://postgres:123@localhost:5432/popular_movies")
 
+st.title("genres influence")
 
 if "logged_in" not in st.session_state.keys() or st.session_state["logged_in"] is False:     
     def make_hashes(str_to_hash):
@@ -90,6 +91,7 @@ else:
         ax.set_ylabel(ylabel="frequency")
         df['genre'].value_counts().plot(ax=ax, kind='bar', xlabel='numbers', ylabel='frequency')
         ax.tick_params(axis='x', labelrotation = 90)
+        st.write("Bar graph showing frequemcy distribution of genres of top 100 movies")
         st.pyplot(fig = fig)
         st.write("This is the frequency distribution of genres of top 100 movies \
         it can be observed that genres like action, Drama and adventure are the most \

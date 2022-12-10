@@ -123,7 +123,7 @@ else:
             where m.movie_id = r.movie_id \
             group by m.movie_id \
             order by count(r.rating) DESC, avg(r.rating) desc \
-            limit 1;"
+            limit 10;"
         ))
         df = pd.DataFrame(best_movie.fetchall(),columns=best_movie.keys())
         st.write("The best movie is ", df["title"].values[0])

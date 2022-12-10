@@ -17,7 +17,7 @@ db = create_engine("postgresql+psycopg2://postgres:123@localhost:5432/popular_mo
 
 ##########################################################
 
-st.header("Overall Best Movie and yearwise top 10 movies")
+st.title("Overall Best Movie and yearwise top 10 movies")
 
 ##########################################################
 
@@ -89,7 +89,7 @@ else:
             limit 10;"
         ))
         df = pd.DataFrame(best_movie.fetchall(),columns=best_movie.keys())
-        st.title("Overall top 10 movies")
+        st.header("Overall top 10 movies")
         st.table(df)
     ###########################################################
 
@@ -102,11 +102,12 @@ else:
         result_yr = connection.execute(select_query_stmnt_year)
         df = pd.DataFrame(result_yr.fetchall(),columns=result_yr.keys())
         arr = df.year.values
+        st.header("year-wise top 10 movies")
         option = st.selectbox('select the year you want the find the 10 best movies wrt ratings', (arr))
         st.write('You selected:', option)
 
     ####################################
-
+        
         year = str(option)
         new_query = "select title from movies as mo where movie_id in \
                         ( select rt.movie_id  from ratings as rt where movie_id in\

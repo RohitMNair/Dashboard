@@ -83,3 +83,5 @@ else:
         #fig.show()
         st.write(fig)
         # st.table(df)
+        st.write("The above pie charts shows the genres distribution of movies. \
+                  The percentage represents the percentage of movies for paricular genres")
